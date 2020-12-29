@@ -6,8 +6,8 @@ public class Main {
 //в своем ДЗ я не стал использовать сканер, т.к. это очень замедляет подбор различных вариантов
     public static void main(String[] args) {
         float rost, ves; //переменные для ребенка
-        Human human1 = new Human(false, "Иван", "Костенко", 180, 95); //тут вводим наши варианты
-        Human human2 = new Human(true, "Лариса", "Петренко", 180, 57);
+        Human human1 = new Human(true, "Иван", "Костенко", 180, 95); //тут вводим наши варианты
+        Human human2 = new Human(false, "Лариса", "Петренко", 180, 57);
 
         System.out.println(human1.toString()); //вывести наших людей на экран
         System.out.println(human2.toString());
@@ -21,7 +21,7 @@ public class Main {
             System.out.println("Поздравляем!");
             Random r = new Random();
 
-            if (human1.gender != human2.gender) {
+            if (human1.gender != human2.gender) { //проверка на разность полов
                 System.out.println("У Вас родился малыш!");
                 if (r.nextInt(100) < 50) {
                     System.out.print("Мальчик, будет ");
