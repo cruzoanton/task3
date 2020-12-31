@@ -8,6 +8,7 @@ public class Human {
     String surName;
     float height;
     float weight;
+    float rost, ves; //переменные для ребенка
 
     public Human(Boolean gender, String name, String surName, float height, float weight) {
         this.gender = gender;
@@ -17,18 +18,20 @@ public class Human {
         this.weight = weight;
     }
 
-    public Boolean talk(boolean gend) {  //сверяем только пол, остальные параметры не имеют значение
+    public Boolean talk(Object a, Object b) {  //сверяем только пол, остальные параметры не имеют значения
+        Human first = (Human) a;
+        Human second = (Human) b;
         System.out.print("Будут ли говорить?  ");
-        if (!gender && !gend) {
+        if (!first.gender && !second.gender) {
             System.out.println("Да!");
             return true;
-        } else if (!gender && gend) {
+        } else if (!first.gender && second.gender) {
             System.out.println("Да!");
             return true;
-        } else if (gender && !gend) {
+        } else if (first.gender && !second.gender) {
             System.out.println("Да!");
             return true;
-        } else if (gender && gend) {
+        } else if (first.gender && second.gender) {
             Random r = new Random();
             if (r.nextInt(100) < 50) {
                 System.out.println("Да!");
@@ -40,30 +43,31 @@ public class Human {
         }
         System.out.println("Нет!");
         return false;
-
     }
 
-    public Boolean company(boolean gend) { //сверка терпения по половым признакам
+    public Boolean company(Object a, Object b) { //сверка терпения по половым признакам
+        Human first = (Human) a;
+        Human second = (Human) b;
         System.out.print("Будут ли терпеть общество друг друга?  ");
-        if (!gender && !gend) {
+        if (!first.gender && !second.gender) {
             Random r = new Random();
             if (r.nextInt(100) < 5) {
                 System.out.println("Да!");
                 return true;
             }
-        } else if (!gender && gend) {
+        } else if (!first.gender && second.gender) {
             Random r = new Random();
             if (r.nextInt(100) < 70) {
                 System.out.println("Да!");
                 return true;
             }
-        } else if (gender && !gend) {
+        } else if (first.gender && !second.gender) {
             Random r = new Random();
             if (r.nextInt(100) < 70) {
                 System.out.println("Да!");
                 return true;
             }
-        } else if (gender && gend) {
+        } else if (first.gender && second.gender) {
             Random r = new Random();
             if (r.nextInt(100) < 5.6) {
                 System.out.println("Да!");
@@ -76,9 +80,11 @@ public class Human {
         }
     }
 
-    public Boolean together(float h) { //тут вместо полового признака сверяем рост
+    public Boolean together(Object a, Object b) { //тут вместо полового признака сверяем рост
+        Human first = (Human) a;
+        Human second = (Human) b;
         System.out.print("Будут тусить вместе?  ");
-        if (Math.abs(height - h) < height / 10) {    //разница в росте до 10%
+        if (Math.abs(first.height - second.height) < height / 10) {    //разница в росте до 10%
             Random r = new Random();
             if (r.nextInt(100) < 95) {
                 System.out.println("Да, вероятность была 95%");
@@ -97,6 +103,46 @@ public class Human {
         return false;
     }
 
+    public void makeBaby(Object a, Object b) {
+        Human first = (Human) a;
+        Human second = (Human) b;
+        if (talk(first, second) &&  //сравниваем условия методов
+                company(first, second) &&
+                together(first, second)) {
+            System.out.println("Поздравляем!");
+            Random r = new Random();
+
+            if (first.gender != second.gender) { //проверка на разность полов
+                System.out.println("У Вас родился малыш!");
+                if (r.nextInt(100) < 50) {
+                    System.out.print("Мальчик, будет ");
+                    if (first.gender) {             //присваиваем вес и рост
+                        rost = (float) (first.height + second.height * 0.1); //если первый родитель отец
+                        ves = (float) (first.weight + second.weight * 0.1);
+                    } else {
+                        rost = (float) (second.height + first.height * 0.1); //если второй родитель отец
+                        ves = (float) (second.weight + first.weight * 0.1);
+                    }
+
+
+                } else {
+                    System.out.print("Девочка, будет "); //то же самое но с девочкой, если первый родитель мать
+                    if (!first.gender) {
+                        rost = (float) (first.height + second.height * 0.1);
+                        ves = (float) (first.weight + second.weight * 0.1);
+                    } else {
+                        rost = (float) (second.height + first.height * 0.1);
+                        ves = (float) (second.weight + first.weight * 0.1);
+                    }
+                }
+
+                if (first.gender) {            //присваиваем Фамилию и закидываем рост и вес ребенка
+                    System.out.print(first.surName + " " + "ростом " + rost + " и весом " + ves);
+                } else
+                    System.out.print(second.surName + " " + "ростом " + rost + " и весом " + ves);
+            }
+        } else System.out.println("Ничего не вышло");
+    }
 
     @Override
     public String toString() {
